@@ -147,13 +147,13 @@ We have fine tuned the Yolox model for 200 epochs on TUFTS dataset with training
   <tr>
     <td style="text-align: center; padding: 10px;">
       <p><strong>Raw Confusion Matrix:</strong></p>
-      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/confusion_matrix.png" alt="Raw Confusion Matrix" width="800">
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/confusion_matrix.png" alt="Raw Confusion Matrix">
     </td>
   </tr>
   <tr>
   <td style="text-align: center; padding: 10px;">
       <p><strong>Normalized Confusion Matrix:</strong></p>
-      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/confusion_matrix_normalized.png" alt="Normalized Confusion Matrix" width="1000">
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/confusion_matrix_normalized.png" alt="Normalized Confusion Matrix">
     </td>
   </tr>
 </table>
