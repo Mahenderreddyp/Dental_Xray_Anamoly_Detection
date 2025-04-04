@@ -7,7 +7,7 @@ This project leverages the **Tufts Dental Database: A Multimodal Panoramic X-Ray
 
 ## 📦 Dataset
 
-**Source**: [Tufts Dental Database](https://arxiv.org/abs/2312.06226)
+**Source**: [Tufts Dental Database](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9557804)
 
 **Highlights**:
 - High-resolution panoramic dental X-ray images
