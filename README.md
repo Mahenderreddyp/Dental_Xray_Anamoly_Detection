@@ -25,16 +25,16 @@ Our pipeline involves four sequential processing steps:
 
 1. **Maxillomandibular Region Detection**  
    Isolating the region of interest in the panoramic scan.  
-   ![overlay_maxillomandibular.jpg](TUFTS-project\overlay_maxillomandibular.jpg)
+   ![overlay_maxillomandibular.jpg](TUFTS-project/overlay_maxillomandibular.jpg)
 
 
 2. **Tooth Segmentation**  
    Extracting the tooth structures from the X-ray for individual inspection.  
-   ![overlay_teeth.jpg](TUFTS-project\overlay_teeth.jpg)
+   ![overlay_teeth.jpg](TUFTS-project/overlay_teeth.jpg)
 
 3. **Anomaly Detection**  
    Identifying and segmenting anomalies within the detected teeth regions.  
-   ![overlay_anomalies.jpg](TUFTS-project\overlay_anomalies.jpg)
+   ![overlay_anomalies.jpg](TUFTS-project/overlay_anomalies.jpg)
 
 ---
 
@@ -57,7 +57,7 @@ Our pipeline involves four sequential processing steps:
 
 Training and validation loss convergence:
 
-![results.png](TUFTS-project\medical_segmentation\exp_augmented9\results.png)
+![results.png](TUFTS-project/medical_segmentation/exp_augmented9/results.png)
 
 ---
 
@@ -78,23 +78,23 @@ Training and validation loss convergence:
 ## 📈 Detection & Segmentation Curves
 
 ### Bounding Box Metrics
-- F1 vs Confidence: ![BoxF1_curve.png](TUFTS-project\medical_segmentation\exp_augmented9\BoxF1_curve.png)
-- Precision vs Confidence: ![BoxP_curve.png](TUFTS-project\medical_segmentation\exp_augmented9\BoxP_curve.png)
-- PR Curve: ![BoxPR_curve.png](TUFTS-project\medical_segmentation\exp_augmented9\BoxPR_curve.png)
-- Recall vs Confidence: ![BoxR_curve.png](TUFTS-project\medical_segmentation\exp_augmented9\BoxR_curve.png)
+- F1 vs Confidence: ![BoxF1_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/BoxF1_curve.png)
+- Precision vs Confidence: ![BoxP_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/BoxP_curve.png)
+- PR Curve: ![BoxPR_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/BoxPR_curve.png)
+- Recall vs Confidence: ![BoxR_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/BoxR_curve.png)
 
 ### Segmentation Metrics
-- F1 vs Confidence: ![MaskF1_curve.png](TUFTS-project\medical_segmentation\exp_augmented9\MaskF1_curve.png)
-- Precision vs Confidence: ![MaskP_curve.png](TUFTS-project\medical_segmentation\exp_augmented9\MaskP_curve.png)
-- PR Curve: ![MaskPR_curve.png](TUFTS-project\medical_segmentation\exp_augmented9\MaskPR_curve.png)
-- Recall vs Confidence: ![MaskR_curve.png](TUFTS-project\medical_segmentation\exp_augmented9\MaskR_curve.png)
+- F1 vs Confidence: ![MaskF1_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/MaskF1_curve.png)
+- Precision vs Confidence: ![MaskP_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/MaskP_curve.png)
+- PR Curve: ![MaskPR_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/MaskPR_curve.png)
+- Recall vs Confidence: ![MaskR_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/MaskR_curve.png)
 
 ---
 
 ## 📊 Confusion Matrices
 
-- Raw: ![confusion_matrix.png](TUFTS-project\medical_segmentation\exp_augmented9\confusion_matrix.png)
-- Normalized: ![confusion_matrix_normalized.png](TUFTS-project\medical_segmentation\exp_augmented9\confusion_matrix_normalized.png)
+- Raw: ![confusion_matrix.png](TUFTS-project/medical_segmentation/exp_augmented9/confusion_matrix.png)
+- Normalized: ![confusion_matrix_normalized.png](TUFTS-project/medical_segmentation/exp_augmented9/confusion_matrix_normalized.png)
 
 > ✅ 93% of anomalies were detected correctly with minimal misclassification.
 
@@ -103,11 +103,11 @@ Training and validation loss convergence:
 ## 📷 Sample Outputs
 
 ### Ground Truth (Train)
-![train_batch2.jpg](TUFTS-project\medical_segmentation\exp_augmented9\train_batch2.jpg)
+![train_batch2.jpg](TUFTS-project/medical_segmentation/exp_augmented9/train_batch2.jpg)
 
 ### Ground Truth vs Predictions (Validation)
-- Labels: ![val_batch2_labels.jpg](TUFTS-project\medical_segmentation\exp_augmented9\val_batch2_labels.jpg)
-- Predictions: ![val_batch2_pred.jpg](TUFTS-project\medical_segmentation\exp_augmented9\val_batch2_pred.jpg)
+- Labels: ![val_batch2_labels.jpg](TUFTS-project/medical_segmentation/exp_augmented9/val_batch2_labels.jpg)
+- Predictions: ![val_batch2_pred.jpg](TUFTS-project/medical_segmentation/exp_augmented9/val_batch2_pred.jpg)
 
 ---
 
