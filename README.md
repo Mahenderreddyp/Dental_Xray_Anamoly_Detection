@@ -1,67 +1,86 @@
+# Dental Anomaly Detection using YOLOv8 Segmentation
+- ![val_batch2_pred.jpg](TUFTS-project/medical_segmentation/exp_augmented9/val_batch2_pred.jpg)
 
-# Dental Anomaly Detection using YOLOv8 Object Detection and Segmentation
-
-This project leverages the **Tufts Dental Database: A Multimodal Panoramic X-Ray Dataset** to detect dental anomalies such as missing teeth, implants, and lesions. Using a multi-step pipeline based on YOLOv8 object detection and segmentation, we demonstrate state-of-the-art performance, surpassing reported results in the original Tufts paper in both detection and segmentation tasks.
-
----
-
-## 📦 Dataset
-
-**Source**: [Tufts Dental Database](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9557804)
-
-**Highlights**:
-- High-resolution panoramic dental X-ray images
-- Expert-labeled annotations for dental anomalies
-- YOLO format for bounding boxes and polygons for segmentation
-- Below is the bounding box class distribution in our preprocessed dataset:
-
-![labels.jpg](TUFTS-project/medical_segmentation/exp_augmented9/labels.jpg)
+This project uses the **Tufts Dental Database: A Multimodal Panoramic X-Ray Dataset** to detect dental anomalies such as missing teeth, implants, or lesions using a YOLOv8-based pipeline combining both object detection and mask segmentation. We have reported the performance of our model which is greater then some of the best reported acadmeic work on TUFTS dataset.
 
 ---
 
 ## 📚 Project Overview
+<p><strong>Our pipeline involves four sequential processing steps:</strong></p>
 
-Our pipeline involves four sequential processing steps:
+<table>
+  <tr>
+    <td style="vertical-align: top; padding: 10px;"><strong>1. Maxillomandibular Region Detection</strong><br>
+      Isolating the region of interest in the panoramic scan.
+    </td>
+    <td style="text-align: center; padding: 10px;">
+      <img src="TUFTS-project/overlay_maxillomandibular.jpg" alt="Maxillomandibular Region" width="300">
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding: 10px;"><strong>2. Tooth Segmentation</strong><br>
+      Extracting the tooth structures from the X-ray for individual inspection.
+    </td>
+    <td style="text-align: center; padding: 10px;">
+      <img src="TUFTS-project/overlay_teeth.jpg" alt="Tooth Segmentation" width="300">
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding: 10px;"><strong>3. Anomaly Detection</strong><br>
+      Identifying and segmenting anomalies within the detected teeth regions.
+    </td>
+    <td style="text-align: center; padding: 10px;">
+      <img src="TUFTS-project/overlay_anomalies.jpg" alt="Anomaly Detection" width="300">
+    </td>
+  </tr>
+</table>
 
-1. **Maxillomandibular Region Detection**  
-   Isolating the region of interest in the panoramic scan.  
-   ![overlay_maxillomandibular.jpg](TUFTS-project/overlay_maxillomandibular.jpg)
 
+## 📦 Dataset
 
-2. **Tooth Segmentation**  
-   Extracting the tooth structures from the X-ray for individual inspection.  
-   ![overlay_teeth.jpg](TUFTS-project/overlay_teeth.jpg)
+**Source**: [Tufts Dental Database](https://arxiv.org/abs/2312.06226)
 
-3. **Anomaly Detection**  
-   Identifying and segmenting anomalies within the detected teeth regions.  
-   ![overlay_anomalies.jpg](TUFTS-project/overlay_anomalies.jpg)
+**Details**:
+- Panoramic dental X-rays (high resolution)
+- Annotated anomalies under the class label: `anomaly`
+- Available in YOLO format for bounding boxes and polygon format for segmentation
+- Distribution visualization: The image below shows the distribution of our labeled bounding box dataset. 
+![labels.jpg](TUFTS-project/medical_segmentation/exp_augmented9/labels.jpg)
 
 ---
-
 ## 🧠 Model Pipeline
 
-| Stage               | Model     | Description                                  |
-|---------------------|-----------|----------------------------------------------|
-| Region Detection    | YOLOv8    | Localizes the maxillomandibular structure    |
-| Tooth Segmentation  | YOLOv8-seg| Extracts teeth using fine-grained masks      |
-| Anomaly Segmentation| YOLOv8-seg| Detects and outlines dental anomalies        |
+| Task               | Model     | Description                                      |
+|--------------------|-----------|--------------------------------------------------|
+| Object Detection   | YOLOv8    | Detect bounding boxes around anomalies          |
+| Mask Segmentation  | YOLOv8-seg| Segment anomalies within detected regions       |
 
 ---
 
-## 🏋️‍♂️ Training Setup
+## 🏋️‍♂️ Training Overview
+We have fine tuned the Yolox model for 200 epochs on TUFTS dataset with training observation as shown in the image below.
 
-- **Model**: YOLOv8 (Object Detection + Segmentation)
 - **Epochs**: 200
-- **Loss Types**: Classification, Box, Segmentation, DFL
-- **Optimization**: AdamW optimizer with cosine annealing scheduler
-
-Training and validation loss convergence:
+- **Losses**: Classification, Box, Segmentation, and Distribution Focal Loss (DFL)
+- Training and validation loss curves show strong convergence:
 
 ![results.png](TUFTS-project/medical_segmentation/exp_augmented9/results.png)
 
 ---
 
-## 📊 Performance Metrics
+## 📊 Evaluation Metrics
+
+### 📈 Detection and Segmentation Metrics
+
+| Metric          | Detection (Box) | Segmentation (Mask) |
+|------------------|------------------|----------------------|
+| mAP@0.5          | 0.946            | 0.942                |
+| F1 Score (Max)   | 0.95 @ 0.479     | 0.95 @ 0.478         |
+| Precision (Max)  | 1.00 @ 0.826     | 1.00 @ 0.826         |
+| Recall (Max)     | 0.95 @ 0.000     | 0.95 @ 0.000         |
+
+---
+## 📊 TUFTS comparison
 
 | Metric               | Our Model  | Tufts Paper (Benchmark) |
 |----------------------|------------|--------------------------|
@@ -71,72 +90,133 @@ Training and validation loss convergence:
 | Max Precision        | 1.00       | N/A                      |
 | Max Recall           | 0.95       | N/A                      |
 
-> 🔍 Our model outperforms both the YOLOv5s and FCN baselines reported in the Tufts paper.
+🔍 Our process  outperforms both the YOLOv5s and FCN baselines reported in the Tufts paper.
+
+### 📉 Precision, Recall & F1 Curves
+<!-- Bounding Box Metrics -->
+**Bounding Box Metrics**
+<table>
+  <tr>
+    <td style="text-align: center;">
+      <p>F1 vs Confidence:</p>
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/BoxF1_curve.png" alt="F1 vs Confidence" width="250">
+    </td>
+    <td style="text-align: center;">
+      <p>Precision vs Confidence:</p>
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/BoxP_curve.png" alt="Precision vs Confidence" width="250">
+    </td>
+    <td style="text-align: center;">
+      <p>Precision-Recall Curve:</p>
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/BoxPR_curve.png" alt="Precision-Recall Curve" width="250">
+    </td>
+    <td style="text-align: center;">
+      <p>Recall vs Confidence:</p>
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/BoxR_curve.png" alt="Recall vs Confidence" width="250">
+    </td>
+  </tr>
+</table>
+
+<!-- Mask Segmentation Metrics -->
+**Mask Segmentation Metrics**
+<table>
+  <tr>
+    <td style="text-align: center;">
+      <p>F1 vs Confidence:</p>
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/MaskF1_curve.png" alt="F1 vs Confidence" width="250">
+    </td>
+    <td style="text-align: center;">
+      <p>Precision vs Confidence:</p>
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/MaskP_curve.png" alt="Precision vs Confidence" width="250">
+    </td>
+    <td style="text-align: center;">
+      <p>Precision-Recall Curve:</p>
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/MaskPR_curve.png" alt="Precision-Recall Curve" width="250">
+    </td>
+    <td style="text-align: center;">
+      <p>Recall vs Confidence:</p>
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/MaskR_curve.png" alt="Recall vs Confidence" width="250">
+    </td>
+  </tr>
+</table>
+
 
 ---
 
-## 📈 Detection & Segmentation Curves
+## 📊 Confusion Matrix
+<table>
+  <tr>
+    <td style="text-align: center; padding: 10px;">
+      <p><strong>Raw Confusion Matrix:</strong></p>
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/confusion_matrix.png" alt="Raw Confusion Matrix" width="300">
+    </td>
+    <td style="text-align: center; padding: 10px;">
+      <p><strong>Normalized Confusion Matrix:</strong></p>
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/confusion_matrix_normalized.png" alt="Normalized Confusion Matrix" width="300">
+    </td>
+  </tr>
+</table>
 
-### Bounding Box Metrics
-- F1 vs Confidence: ![BoxF1_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/BoxF1_curve.png)
-- Precision vs Confidence: ![BoxP_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/BoxP_curve.png)
-- PR Curve: ![BoxPR_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/BoxPR_curve.png)
-- Recall vs Confidence: ![BoxR_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/BoxR_curve.png)
 
-### Segmentation Metrics
-- F1 vs Confidence: ![MaskF1_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/MaskF1_curve.png)
-- Precision vs Confidence: ![MaskP_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/MaskP_curve.png)
-- PR Curve: ![MaskPR_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/MaskPR_curve.png)
-- Recall vs Confidence: ![MaskR_curve.png](TUFTS-project/medical_segmentation/exp_augmented9/MaskR_curve.png)
-
----
-
-## 📊 Confusion Matrices
-
-- Raw: ![confusion_matrix.png](TUFTS-project/medical_segmentation/exp_augmented9/confusion_matrix.png)
-- Normalized: ![confusion_matrix_normalized.png](TUFTS-project/medical_segmentation/exp_augmented9/confusion_matrix_normalized.png)
-
-> ✅ 93% of anomalies were detected correctly with minimal misclassification.
+**Insights**:
+- 93% of anomalies were correctly predicted.
+- Background misclassifications were minimal, indicating strong class separation.
 
 ---
 
-## 📷 Sample Outputs
 
-### Ground Truth (Train)
-![train_batch2.jpg](TUFTS-project/medical_segmentation/exp_augmented9/train_batch2.jpg)
+## 💡 Key Observations
 
-### Ground Truth vs Predictions (Validation)
-- Labels: ![val_batch2_labels.jpg](TUFTS-project/medical_segmentation/exp_augmented9/val_batch2_labels.jpg)
-- Predictions: ![val_batch2_pred.jpg](TUFTS-project/medical_segmentation/exp_augmented9/val_batch2_pred.jpg)
-
----
-
-## 💡 Key Takeaways
-
-- Strong generalization across both detection and segmentation tasks.
-- Our YOLOv8-based model achieves higher mAP than Tufts’ original baselines.
-- Expert visualizations enhance interpretability (e.g., gaze heatmaps).
-- Overlay-based masks (teeth, anomalies, jaw) help debug predictions effectively.
+- **Excellent F1 Scores** (0.95) at moderate confidence thresholds.
+- **Perfect precision** (1.0) achieved at high confidence, indicating highly trustworthy predictions.
+- **High mAP@0.5** for both detection and segmentation proves the model’s capability to localize and delineate anomalies effectively.
+- Confusion matrix confirms minimal false positives and false negatives.
+- Label distribution is reasonably balanced and spatially consistent across the dataset.
 
 ---
 
-## 🔮 Future Work
+## 🧪 Sample Visualizations
 
-- Expand to multi-class anomaly types.
-- Leverage time-series dental imaging for disease progression tracking.
-- Integrate with 3D dental modeling platforms.
+
+### 📦 Ground Truth (Train)
+<table>
+  <tr>
+    <td style="text-align: center;">
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/train_batch2.jpg" alt="Train Batch 2" width="300">
+    </td>
+    <td style="text-align: center;">
+      <img src="./TUFTS-project/medical_segmentation/exp_augmented9/train_batch6082.jpg" alt="Train Batch 6082" width="300">
+    </td>
+  </tr>
+</table>
+
+
+### 🧾 Ground Truth Labels (Validation)
+- ![val_batch2_labels.jpg](TUFTS-project/medical_segmentation/exp_augmented9/val_batch2_labels.jpg)
+
+### 🧠 Model Predictions (Validation)
+- ![val_batch2_pred.jpg](TUFTS-project/medical_segmentation/exp_augmented9/val_batch2_pred.jpg)
+
+---
+
+
+## 🚀 Future Scope
+
+- Introduce multi-label anomaly classification (e.g., caries, implants).
+- Build anomaly progression tracking over time from X-ray series.
+- Explore 3D reconstruction or CT-assisted learning.
 
 ---
 
 ## 🛠️ Tools & Frameworks
 
-- **YOLOv8 (Ultralytics)** – Detection & Segmentation
-- **OpenCV + Matplotlib** – Visualization
-- **NumPy + Pandas** – Analysis & Aggregation
-- **Tufts Dental Dataset** – Panoramic X-ray Images
+- **YOLOv8**: Ultralytics
+- **Python**: Data preprocessing, training
+- **OpenCV + Matplotlib**: Visualization
+- **Pandas/Numpy**: Data analysis
 
 ---
 
+
 ## 📌 Conclusion
 
-This work showcases the capability of YOLOv8 to outperform existing academic models on the Tufts Dental Dataset. By leveraging expert insights, region-wise segmentation, and careful visualization, we not only improve accuracy but also provide a robust diagnostic tool for dental practitioners.
+This project demonstrates the viability of deep learning-based anomaly detection in dental radiography using object detection and segmentation techniques. With near-perfect precision and robust recall, this system can significantly assist dental practitioners in early diagnosis and treatment planning.
