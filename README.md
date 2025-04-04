@@ -15,7 +15,7 @@ This project leverages the **Tufts Dental Database: A Multimodal Panoramic X-Ray
 - YOLO format for bounding boxes and polygons for segmentation
 - Below is the bounding box class distribution in our preprocessed dataset:
 
-![labels.jpg](TUFTS-project/medical_segmentation/exp_augmented9)
+![labels.jpg](TUFTS-project/medical_segmentation/exp_augmented9/labels.jpg)
 
 ---
 
